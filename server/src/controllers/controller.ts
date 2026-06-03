@@ -303,7 +303,7 @@ export default createCoreController(
       // Retrieve files with optional sorting and search
       async getFiles(ctx) {
         try {
-          const { name, caption, alternativeText, sort } = ctx.request
+          const { name, caption, alternativeText, sort, folder } = ctx.request
             .query as Record<string, string | undefined>;
 
           const filters: Record<string, any> = {};
@@ -316,6 +316,9 @@ export default createCoreController(
           if (alternativeText) {
             filters.alternativeText = { $containsi: alternativeText };
           }
+          if (folder) {
+            filters.folder = { id: { $eq: folder } };
+          }          
 
           let sortArray: string[] = [];
           if (sort) {
